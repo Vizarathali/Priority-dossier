@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Use Case Prioritization Dossier</title>
+<!--
+  PRIORITIZATION DOSSIER — glassmorphic edition
+  ------------------------------------------------
+  EDIT YOUR CONTENT: see the CATEGORIES array in the <script> below.
+  Each category needs: id, name, intro, accent (hex — colors the isometric cube), cases[].
+  Each case needs: id, name, def.
+-->
+<style>
+  html, body{ margin:0; padding:0; background: #15092f; min-height:100%; }
+  body{ display:flex; justify-content:center; padding: 32px 16px; box-sizing:border-box; }
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+  :root{
+    --red: #e31937;
+    --purple: #5236ab;
+    --purple-dark: #200a58;
+    --magenta: #7e1b4c;
+    --gray: #555555;
+    --purple-light: #9e83f5;
+    --ink: #ffffff;
+    --ink-soft: rgba(255,255,255,0.72);
+    --ink-faint: rgba(255,255,255,0.5);
+    --glass: rgba(255,255,255,0.10);
+    --glass-strong: rgba(255,255,255,0.18);
+    --glass-border: rgba(255,255,255,0.28);
+  }
+  *{ box-sizing: border-box; }
+
+  .stage{
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 28px;
+    overflow: hidden;
+    background: linear-gradient(150deg, var(--purple-dark) 0%, var(--purple) 55%, var(--red) 115%);
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
+    min-height: 560px;
+  }
+  .blob{ position:absolute; border-radius:50%; filter: blur(60px); opacity:0.55; pointer-events:none; }
+  .blob.b1{ width:340px; height:340px; background: var(--red); top:-120px; right:-100px; }
+  .blob.b2{ width:300px; height:300px; background: var(--purple-light); bottom:-140px; left:-90px; }
+  .blob.b3{ width:220px; height:220px; background: var(--magenta); top:40%; right:10%; opacity:0.35; }
+
+  .content{ position:relative; z-index:1; padding: 30px 34px 34px; }
+
+  h1,h2,h3,h4{ font-family:'Fraunces',serif; font-weight:600; margin:0; color: var(--ink); }
+  .kicker{ font-size:12.5px; color: var(--ink-faint); margin-bottom:6px; letter-spacing:0.2px; }
+  .head h1{ font-size:27px; }
+  .head p{ color: var(--ink-soft); margin-top:8px; max-width:62ch; font-size:14px; }
+
+  .glass{
+    background: var(--glass);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+  }
+
+  /* ---- intro ---- */
+  .field{ margin-top:22px; max-width:380px; }
+  .field label{ display:block; font-size:12.5px; color: var(--ink-soft); margin-bottom:6px; }
+  .field input{
+    width:100%; font-family:'IBM Plex Sans',sans-serif; font-size:15px;
+    padding:11px 14px; border-radius:12px; border:1px solid var(--glass-border);
+    background: rgba(255,255,255,0.14); color: var(--ink);
+  }
+  .field input::placeholder{ color: var(--ink-faint); }
+  .field input:focus{ outline: 2px solid #fff; outline-offset:1px; }
+
+  .btn{
+    font-family:'IBM Plex Sans',sans-serif; font-size:14px; font-weight:600;
+    padding:12px 22px; border-radius:14px; border:1px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.92); color: var(--purple-dark); cursor:pointer;
+    transition: transform .12s ease, background .12s ease;
+  }
+  .btn:hover{ transform: translateY(-1px); background:#fff; }
+  .btn:disabled{ background: rgba(255,255,255,0.25); color: var(--ink-faint); cursor:not-allowed; transform:none; border-color: var(--glass-border); }
+  .btn.ghost{ background: transparent; color: var(--ink); border-color: var(--glass-border); }
+  .btn.ghost:hover{ background: rgba(255,255,255,0.12); }
+  .row{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:24px; }
+
+  /* ---- sticky counter ---- */
+  .counter-bar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 12px 18px; margin-bottom: 20px; gap:14px;
+  }
+  .counter-bar .count{ font-family:'Fraunces',serif; font-size:16px; }
+  .counter-bar .chips{ display:flex; gap:6px; flex-wrap:wrap; flex:1; margin: 0 14px; }
+  .chip{
+    font-size:12px; padding:5px 10px; border-radius:20px;
+    background: rgba(255,255,255,0.18); border:1px solid var(--glass-border);
+  }
+
+  /* ---- category row ---- */
+  .cat-row{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom: 6px; }
+  .cat-tile{
+    width: 138px; padding: 18px 12px 14px; text-align:center; cursor:pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .cat-tile:hover{ transform: translateY(-3px); background: var(--glass-strong); }
+  .cat-tile.active{ background: var(--glass-strong); box-shadow: 0 0 0 2px var(--tile-accent, #fff); }
+  .cat-tile .icon-wrap{ width:64px; height:64px; margin: 0 auto 8px; }
+  .cat-tile h4{ font-size:13.5px; line-height:1.25; }
+  .cat-tile .cnt{ font-size:11px; color: var(--ink-faint); margin-top:3px; }
+
+  /* ---- case panel ---- */
+  .case-panel{ margin-top:18px; padding:22px; animation: fadein .18s ease; }
+  @keyframes fadein{ from{ opacity:0; transform: translateY(-6px);} to{ opacity:1; transform:none; } }
+  .case-panel .cat-intro{ color: var(--ink-soft); font-size:13.5px; margin-bottom:16px; max-width:60ch; }
+  .case-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap:12px; }
+  .case-tile{
+    position:relative; padding:14px 40px 14px 16px; border-radius:14px; cursor:pointer;
+    background: rgba(255,255,255,0.09); border:1px solid var(--glass-border);
+    transition: background .12s ease, box-shadow .12s ease;
+  }
+  .case-tile:hover{ background: rgba(255,255,255,0.15); }
+  .case-tile.selected{ background: rgba(255,255,255,0.24); box-shadow: 0 0 0 2px #fff; }
+  .case-tile.disabled{ opacity:0.35; cursor:not-allowed; }
+  .case-tile h4{ font-size:14px; margin-bottom:3px; }
+  .case-tile p{ font-size:12.5px; color: var(--ink-soft); margin:0; }
+  .case-tile .mark{
+    position:absolute; top:14px; right:14px; width:20px; height:20px; border-radius:50%;
+    border: 1.5px solid rgba(255,255,255,0.6); display:flex; align-items:center; justify-content:center;
+    font-size:11px;
+  }
+  .case-tile.selected .mark{ background:#fff; color: var(--purple-dark); border-color:#fff; }
+
+  .empty-hint{ padding: 26px 6px; color: var(--ink-faint); font-size:13.5px; text-align:center; }
+
+  /* ---- review / thanks ---- */
+  .chosen-list{ list-style:none; padding:0; margin:18px 0; }
+  .chosen-list li{
+    padding:13px 16px; border-radius:14px; background: var(--glass-strong);
+    border:1px solid var(--glass-border); margin-bottom:8px;
+  }
+  .chosen-list li h4{ font-size:14.5px; }
+  .chosen-list li span{ font-size:11.5px; color: var(--ink-faint); }
+  .thanks-mark{ font-family:'Fraunces',serif; font-size:44px; margin-bottom:6px; }
+  .foot-link{
+    display:inline-block; margin-top:24px; font-size:12px; color: var(--ink-soft);
+    text-decoration:underline; cursor:pointer; background:none; border:none; padding:0;
+  }
+
+  .results-row{ display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--glass-border); font-size:13.5px; }
+  .results-row .bar-track{ flex:1; height:8px; background: rgba(255,255,255,0.15); border-radius:4px; overflow:hidden; }
+  .results-row .bar-fill{ height:100%; background:#fff; }
+  .results-row .rn{ width:18px; color: var(--ink-faint); font-size:12px; }
+  .results-row .rc{ width:30px; text-align:right; font-size:12px; color: var(--ink-faint); }
+
+  .err{ color:#ffd0c8; font-size:13px; margin-top:8px; }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="content" id="app"></div>
+</div>
+
+<script>
+(async function(){
+
+  // Content lives in /data.json (edit that file, not this script) so the
+  // server can use the same category/use-case names for the CSV export.
+  let CATEGORIES = [], MIN_PICKS = 3, MAX_PICKS = 5;
+  const app = document.getElementById('app');
+  app.innerHTML = `<div style="padding:60px 20px;text-align:center;color:#fff;opacity:.7;">Loading…</div>`;
+  try {
+    const res = await fetch('data.json');
+    const data = await res.json();
+    CATEGORIES = data.categories; MIN_PICKS = data.minPicks; MAX_PICKS = data.maxPicks;
+  } catch(e) {
+    app.innerHTML = `<div style="padding:60px 20px;text-align:center;color:#fff;">Couldn't load use case data. Please refresh.</div>`;
+    return;
+  }
+
+  const ALL_CASES = CATEGORIES.flatMap(c => c.cases.map(x => ({...x, catId:c.id, catName:c.name})));
+
+  let state = { screen:'intro', name:'', activeCat: null, picks: [] };
+
+  // ---- color helpers ----
+  function shade(hex, pct){
+    const n = parseInt(hex.slice(1),16);
+    let r = (n>>16)&255, g=(n>>8)&255, b=n&255;
+    const f = pct/100;
+    if (f>0){ r += (255-r)*f; g += (255-g)*f; b += (255-b)*f; }
+    else { r += r*f; g += g*f; b += b*f; }
+    r=Math.max(0,Math.min(255,Math.round(r))); g=Math.max(0,Math.min(255,Math.round(g))); b=Math.max(0,Math.min(255,Math.round(b)));
+    return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
+  }
+
+  // ---- isometric icon builder ----
+  function isoIcon(accent){
+    const top = shade(accent, 45), left = shade(accent, 5), right = shade(accent, -28);
+    return `
+      <polygon points="50,8 88,29 50,50 12,29" fill="${top}"/>
+      <polygon points="12,29 50,50 50,92 12,71" fill="${left}"/>
+      <polygon points="88,29 50,50 50,92 88,71" fill="${right}"/>
+    `;
+  }
+  function iconSvg(accent){
+    return `<svg viewBox="0 0 100 100" width="100%" height="100%">${isoIcon(accent)}</svg>`;
+  }
+
+  function render(){
+    if (state.screen==='intro') return renderIntro();
+    if (state.screen==='explore') return renderExplore();
+    if (state.screen==='review') return renderReview();
+    if (state.screen==='thanks') return renderThanks();
+    if (state.screen==='results') return renderResults();
+  }
+
+  function head(kicker, title, sub){
+    return `<div class="head" style="margin-bottom:22px;">
+      <div class="kicker">${kicker}</div><h1>${title}</h1>${sub?`<p>${sub}</p>`:''}
+    </div>`;
+  }
+
+  function renderIntro(){
+    app.innerHTML = `
+      ${head('Use case prioritization','Help us prioritize these use cases','Browse each category, learn what the use cases mean, and choose between '+MIN_PICKS+' and '+MAX_PICKS+' as your priorities. Takes about 5–8 minutes.')}
+      <div class="field">
+        <label for="nm">Your name</label>
+        <input id="nm" type="text" placeholder="e.g. Priya Shah"/>
+      </div>
+      <div class="row"><span></span><button class="btn" id="start">Begin</button></div>
+    `;
+    document.getElementById('start').onclick = () => {
+      const v = document.getElementById('nm').value.trim();
+      if(!v){ document.getElementById('nm').style.boxShadow='0 0 0 2px #ffb3a7'; return; }
+      state.name = v; state.screen='explore'; render();
+    };
+  }
+
+  function renderExplore(){
+    const chips = state.picks.map(id => {
+      const c = ALL_CASES.find(x=>x.id===id);
+      return `<span class="chip">${c ? c.name : id}</span>`;
+    }).join('');
+
+    const catTiles = CATEGORIES.map(cat => `
+      <div class="cat-tile glass ${state.activeCat===cat.id?'active':''}" style="--tile-accent:${cat.accent}" data-cat="${cat.id}">
+        <div class="icon-wrap">${iconSvg(cat.accent)}</div>
+        <h4>${cat.name}</h4>
+        <div class="cnt">${cat.cases.length} use cases</div>
+      </div>
+    `).join('');
+
+    let panelHtml = `<div class="empty-hint">Select a category above to see its use cases.</div>`;
+    const active = CATEGORIES.find(c => c.id === state.activeCat);
+    if (active){
+      panelHtml = `
+        <h3 style="font-size:17px;margin-bottom:4px;">${active.name}</h3>
+        <p class="cat-intro">${active.intro}</p>
+        <div class="case-grid">
+          ${active.cases.map(c => {
+            const chosen = state.picks.includes(c.id);
+            const disabled = !chosen && state.picks.length >= MAX_PICKS;
+            return `<div class="case-tile ${chosen?'selected':''} ${disabled?'disabled':''}" data-id="${c.id}">
+              <div class="mark">${chosen?'✓':''}</div>
+              <h4>${c.name}</h4><p>${c.def}</p>
+            </div>`;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    app.innerHTML = `
+      ${head('Step 1 of 2 · '+state.name,'Explore & choose '+MIN_PICKS+'–'+MAX_PICKS+' priorities')}
+      <div class="counter-bar glass">
+        <div class="count">${state.picks.length}/${MAX_PICKS} <span style="font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;color:var(--ink-faint);">(min ${MIN_PICKS})</span></div>
+        <div class="chips">${chips}</div>
+        <button class="btn" id="toReview" ${state.picks.length>=MIN_PICKS?'':'disabled'}>Review selections</button>
+      </div>
+      <div class="cat-row">${catTiles}</div>
+      <div class="case-panel glass">${panelHtml}</div>
+    `;
+
+    document.querySelectorAll('.cat-tile').forEach(el=>{
+      el.onclick = () => {
+        const id = el.getAttribute('data-cat');
+        state.activeCat = (state.activeCat===id) ? null : id;
+        render();
+      };
+    });
+    document.querySelectorAll('.case-tile').forEach(el=>{
+      el.onclick = () => {
+        const id = el.getAttribute('data-id');
+        if (state.picks.includes(id)) state.picks = state.picks.filter(p=>p!==id);
+        else if (state.picks.length < MAX_PICKS) state.picks.push(id);
+        render();
+      };
+    });
+    const toReview = document.getElementById('toReview');
+    if (toReview) toReview.onclick = () => { if(state.picks.length>=MIN_PICKS){ state.screen='review'; render(); } };
+  }
+
+  function renderReview(){
+    const chosen = state.picks.map(id => ALL_CASES.find(c=>c.id===id));
+    app.innerHTML = `
+      ${head('Step 2 of 2 · '+state.name,'Confirm your '+chosen.length+' priorities','Double check, then submit. You can still go back and change anything.')}
+      <ul class="chosen-list">${chosen.map(c=>`<li><h4>${c.name}</h4><span>${c.catName}</span></li>`).join('')}</ul>
+      <div class="row">
+        <button class="btn ghost" id="back2">Back to selection</button>
+        <button class="btn" id="submit">Submit my ${chosen.length} priorities</button>
+      </div>
+      <div class="err" id="submitErr"></div>
+    `;
+    document.getElementById('back2').onclick = () => { state.screen='explore'; render(); };
+    document.getElementById('submit').onclick = async () => {
+      try{
+        const res = await fetch('api/responses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: state.name, picks: state.picks })
+        });
+        if(!res.ok) throw new Error('save failed');
+        state.screen='thanks'; render();
+      }catch(e){
+        document.getElementById('submitErr').textContent = 'Something went wrong saving your response. Please try again.';
+      }
+    };
+  }
+
+  function renderThanks(){
+    app.innerHTML = `
+      ${head(state.name,"Thanks — you're recorded","Your "+state.picks.length+" priorities have been saved. Reach out to the facilitator if you'd like to change your response.")}
+      <div class="thanks-mark">✓</div>
+      <button class="foot-link" id="toResults">View aggregate results so far</button>
+    `;
+    document.getElementById('toResults').onclick = () => { state.screen='results'; render(); };
+  }
+
+  async function renderResults(){
+    app.innerHTML = `
+      ${head('Facilitator view','Aggregate results so far','Tally of submissions received. This updates as more people respond.')}
+      <div id="resBody">Loading responses…</div>
+      <button class="foot-link" id="backThanks">Back</button>
+    `;
+    document.getElementById('backThanks').onclick = () => { state.screen='thanks'; render(); };
+    try{
+      const r = await fetch('api/results');
+      if(!r.ok) throw new Error('fetch failed');
+      const { total, tally } = await r.json();
+      const ranked = Object.entries(tally).sort((a,b)=>b[1]-a[1]);
+      const maxC = ranked.length ? ranked[0][1] : 1;
+      const rows = ranked.map(([id,count],i)=>{
+        const c = ALL_CASES.find(x=>x.id===id);
+        const pct = Math.round((count/maxC)*100);
+        return `<div class="results-row"><span class="rn">${i+1}</span>
+          <span style="width:220px">${c?c.name:id}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <span class="rc">${count}</span></div>`;
+      }).join('');
+      document.getElementById('resBody').innerHTML = `
+        <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px;">${total} response${total===1?'':'s'} recorded.
+          ${total ? ' · <a href="api/export.csv" style="color:#fff;" download>Download CSV</a>' : ''}
+        </p>
+        ${rows || '<p style="color:var(--ink-faint);font-size:13.5px;">No responses yet.</p>'}
+      `;
+    }catch(e){
+      document.getElementById('resBody').innerHTML = `<p class="err">Couldn't load results right now.</p>`;
+    }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

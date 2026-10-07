@@ -1,0 +1,138 @@
+{
+  "categories": [
+    {
+      "id": "cx",
+      "name": "AI Customer Experience & Personalization",
+      "accent": "#e31937",
+      "intro": "AI-driven ways of discovering, engaging, and retaining customers across channels.",
+      "cases": [
+        {
+          "id": "cx1",
+          "name": "Agentic Contextualized Discovery",
+          "def": "AI-powered systems that autonomously guide shoppers through product discovery by leveraging real-time contextual data (such as user intent, location, behavior, and preferences)."
+        },
+        {
+          "id": "cx2",
+          "name": "AI Generated and Automated Promotion Campaigns",
+          "def": "Leverage real-time data (e.g., inventory, customer behavior, market trends) to dynamically generate campaign content, select target audiences, determine optimal timing, and adjust offers for maximum impact, across digital and physical channels."
+        },
+        {
+          "id": "cx3",
+          "name": "Paid Loyalty Programs",
+          "def": "Customer loyalty schemes that require a recurring fee (e.g., monthly or annual subscription) for membership, in exchange for access to exclusive benefits, enhanced rewards, or premium services."
+        },
+        {
+          "id": "cx4",
+          "name": "Voice Commerce Devices",
+          "def": "Voice-enabled hardware and software platforms (e.g., smart speakers, voice assistants on mobile devices, in-car systems, or in-store kiosks) that facilitate product discovery, ordering, and customer service through natural language interaction."
+        },
+        {
+          "id": "cx5",
+          "name": "AI-driven Conversational Chatbots",
+          "def": "LLM-driven chatbots handle a range of tasks, from product discovery and personalized recommendations to order management and customer support, delivering scalable, always-on service and driving operational efficiency."
+        },
+        {
+          "id": "cx6",
+          "name": "Digital Connected Product Experiences",
+          "def": "Enhance CX and achieve CRM and loyalty program goals (e.g., lifetime value and increased retention) through consistently contextual and relevant interactions leveraging consumer mobile digital screens, supported by a network that processes, mines, and analyzes real- and near-real-time data through the customer journey."
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "name": "AI-Powered Integrated Planning",
+      "accent": "#5236ab",
+      "intro": "AI/ML applied to pricing and order orchestration decisions across the enterprise.",
+      "cases": [
+        {
+          "id": "plan1",
+          "name": "AI-Driven Dynamic Pricing",
+          "def": "Software that leverages data to make algorithmic decisions on best price, appropriate markdowns, and promotion optimization to meet margin and revenue goals across enterprise-level retail, using AI/ML to continuously adjust prices in real time based on demand signals, competitive positioning, inventory levels, and other contextual variables."
+        },
+        {
+          "id": "plan2",
+          "name": "Optimized Order Orchestration",
+          "def": "Retail order orchestration and fulfillment: automating the steps to process an order, distributing the order to the location from which it should be fulfilled, and managing its delivery to the consumer, optimized at all levels."
+        }
+      ]
+    },
+    {
+      "id": "mktg",
+      "name": "Marketing, Retail Media & Brand Monetization",
+      "accent": "#7e1b4c",
+      "intro": "Monetizing attention, media, and demand through advertising, social, and influencer channels.",
+      "cases": [
+        {
+          "id": "mktg1",
+          "name": "Demand Shaping – Offers",
+          "def": "Adjustment of overall consumer demand through incentives, discounts, placement, price, advertising, or promotion, used to intelligently match existing supply or achieve a strategic business objective. Using AI-optimized pricing and promotions to influence consumer demand and align customer behavior with supply availability and business goals."
+        },
+        {
+          "id": "mktg2",
+          "name": "Social Commerce",
+          "def": "The integration of social media platforms (e.g., Instagram, TikTok, Facebook, WeChat) into the retail customer journey to facilitate shoppable posts, livestream selling, influencer-driven campaigns, and peer-to-peer recommendations, often with embedded checkout and payment capabilities."
+        },
+        {
+          "id": "mktg3",
+          "name": "Influencer Marketing",
+          "def": "Leverages the human as well as AI influencer's credibility, audience reach, and content creation skills to authentically promote products or experiences, often integrating with social commerce and omnichannel campaigns."
+        },
+        {
+          "id": "mktg4",
+          "name": "Targeted Online Advertising – Retail Media Networks",
+          "def": "Additional revenue streams based on developed creative and copy tied to brand/CPG-sponsored products based on retailer online traffic and targeted positioning of digital ads."
+        },
+        {
+          "id": "mktg5",
+          "name": "In-Store Digital Advertising – RMN",
+          "def": "Additional revenue streams based on developed creative and copy tied to brand/CPG-sponsored products based on retailer footfall and targeted positioning of digital ads in automated digital signage."
+        }
+      ]
+    },
+    {
+      "id": "supply",
+      "name": "Retail Supply Chain Automation & Fulfillment",
+      "accent": "#200a58",
+      "intro": "Automating inventory, returns, and delivery to move goods faster and more profitably.",
+      "cases": [
+        {
+          "id": "supply1",
+          "name": "On-demand Supply Chain / Product Customization as a Service",
+          "def": "Additional revenue streams based on developed creative and copy tied to brand/CPG-sponsored products based on retailer footfall and targeted positioning of digital ads in automated digital signage."
+        },
+        {
+          "id": "supply2",
+          "name": "Predictive Network Inventory Orchestration",
+          "def": "Predictively optimized network inventory orchestrations that optimize the level and location of inventory and inventory depots."
+        },
+        {
+          "id": "supply3",
+          "name": "Advanced Enterprise Reverse Logistics Execution",
+          "def": "Advanced returns management systems that enable end-to-end tracking and redistribution of returned goods from consumer to reconciliation, optimizing profitability by recommending the most profitable disposition of goods."
+        },
+        {
+          "id": "supply4",
+          "name": "Last Mile Same Day Delivery Optimization",
+          "def": "Route optimization and dynamic dispatch algorithms that minimize delivery time, fuel cost, and labor for same-day last-mile delivery, accounting for SLAs and sustainability factors."
+        },
+        {
+          "id": "supply5",
+          "name": "Last Mile Same Day Delivery Visibility",
+          "def": "Real-time tracking and communication tools that provide retailers, pickers, drivers, and customers with end-to-end visibility into same-day delivery status and location."
+        },
+        {
+          "id": "supply6",
+          "name": "Omnichannel Order Orchestration & Fulfillment",
+          "def": "Distributed order management systems that intelligently route and fulfill omnichannel orders from the optimal inventory location — DC, store, or third party — based on cost, speed, and availability."
+        },
+        {
+          "id": "supply7",
+          "name": "Fulfillment-as-a-Service",
+          "def": "Cloud-based fulfillment platforms offered as a service, enabling retailers — especially smaller operators — to access same-day delivery, ecommerce, and ultrafast fulfillment capabilities without heavy capital investment."
+        }
+      ]
+    }
+  ],
+  "minPicks": 3,
+  "maxPicks": 5
+}
