@@ -4,7 +4,8 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DATA_FILE = path.join(__dirname, 'responses.json');
+const DISK_DIR = process.env.DATA_DIR || __dirname;
+const DATA_FILE = path.join(DISK_DIR, 'responses.json');
 const CATEGORIES_FILE = path.join(__dirname, 'public', 'data.json');
 
 app.use(express.json());
